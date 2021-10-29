@@ -34,6 +34,7 @@ class Progr(QMainWindow):
                 self.polygondraw = False
                 self.buttonpolygonactiv = False
         if self.buttoncircleactiv:
+            self.position = [event.x(), event.y()]
             self.takemousepos = True
             self.startpostaken = True
             self.repaint()
@@ -46,11 +47,9 @@ class Progr(QMainWindow):
     def mouseReleaseEvent(self, event):
         if self.startpostaken:
             self.startpostaken = False
-            self.repaint()
             self.buttoncircleactiv = False
             self.startpostaken = False
             self.takemousepos = False
-
 
     def buttonpolygon(self):
         self.sides, ok_pressed = QInputDialog.getInt(
