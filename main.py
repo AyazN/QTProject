@@ -7,7 +7,6 @@ from PyQt5.QtCore import QPoint, QLine
 from PyQt5.QtGui import QPainter, QPolygon, QColor
 from PyQt5.QtWidgets import QApplication, QMainWindow, QInputDialog, QColorDialog
 
-print(datetime.now().time())
 class Progr(QMainWindow):
     def __init__(self):
         super().__init__()
