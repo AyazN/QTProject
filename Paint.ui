@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1067</width>
-    <height>811</height>
+    <width>1072</width>
+    <height>807</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">
    <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Графический редактор</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tab_5">
@@ -22,9 +22,15 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1051</width>
-      <height>41</height>
+      <width>1061</width>
+      <height>791</height>
      </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
     <property name="tabPosition">
      <enum>QTabWidget::North</enum>
@@ -33,7 +39,7 @@
      <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="iconSize">
      <size>
@@ -42,13 +48,16 @@
      </size>
     </property>
     <property name="documentMode">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="tabsClosable">
      <bool>false</bool>
     </property>
     <property name="movable">
-     <bool>true</bool>
+     <bool>false</bool>
+    </property>
+    <property name="tabBarAutoHide">
+     <bool>false</bool>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -146,7 +155,7 @@
      <widget class="QPushButton" name="btnline">
       <property name="geometry">
        <rect>
-        <x>250</x>
+        <x>270</x>
         <y>0</y>
         <width>51</width>
         <height>21</height>
@@ -165,32 +174,10 @@
        <string>Линия</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btncircle">
-      <property name="geometry">
-       <rect>
-        <x>100</x>
-        <y>0</y>
-        <width>81</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>9</pointsize>
-       </font>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::WheelFocus</enum>
-      </property>
-      <property name="text">
-       <string>Окружность</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="btnellipse">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>210</x>
         <y>0</y>
         <width>51</width>
         <height>21</height>
@@ -209,10 +196,10 @@
        <string>Эллипс</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnclrline">
+     <widget class="QPushButton" name="btnclrpen">
       <property name="geometry">
        <rect>
-        <x>450</x>
+        <x>530</x>
         <y>0</y>
         <width>131</width>
         <height>21</height>
@@ -234,7 +221,7 @@
      <widget class="QPushButton" name="btnclrbrush">
       <property name="geometry">
        <rect>
-        <x>310</x>
+        <x>390</x>
         <y>0</y>
         <width>131</width>
         <height>21</height>
@@ -251,6 +238,50 @@
       </property>
       <property name="text">
        <string>Выбрать цвет фигуры</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnrectangle">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>0</y>
+        <width>101</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::WheelFocus</enum>
+      </property>
+      <property name="text">
+       <string>Прямоугольник</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btncurve">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>0</y>
+        <width>51</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::WheelFocus</enum>
+      </property>
+      <property name="text">
+       <string>Кривая</string>
       </property>
      </widget>
     </widget>
@@ -370,6 +401,16 @@
        <string>Очистить историю</string>
       </property>
      </widget>
+     <widget class="QTableView" name="tableview">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>1071</width>
+        <height>741</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -378,7 +419,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1067</width>
+     <width>1072</width>
      <height>21</height>
     </rect>
    </property>
