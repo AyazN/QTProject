@@ -3,7 +3,7 @@ from datetime import datetime
 from PyQt5.QtCore import QPoint, QLine, pyqtSignal
 from PyQt5.QtGui import QPainter, QPolygon, QColor, QPen
 from PyQt5.QtWidgets import QLabel
-from figures import ellipseorrectangle
+from ellipserectanglefigure import ellipseorrectangle
 
 
 class Paint(QLabel):
