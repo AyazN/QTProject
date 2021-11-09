@@ -1,8 +1,9 @@
 import sqlite3
 from datetime import datetime
 from PyQt5.QtCore import QPoint, QLine, pyqtSignal
-from PyQt5.QtGui import QPainter, QPolygon, QColor, QPen, QPixmap
-from PyQt5.QtWidgets import QLabel, QFileDialog
+from PyQt5.QtGui import QPainter, QPolygon, QColor, QPen
+from PyQt5.QtWidgets import QLabel
+from figures import ellipseorrectangle
 
 
 class Paint(QLabel):
@@ -78,11 +79,11 @@ class Paint(QLabel):
                 self.polygondraw = False
                 self.points = []
             elif self.buttonellipseactiv:
-                self.allfigures.append((self.ELLIPSENUMBER, (self.x, self.y, self.xside, self.yside),
+                self.allfigures.append((self.ELLIPSENUMBER, self.figure,
                                         self.colorbrush, self.colorpen, self.thickpen))
                 self.cur.execute(f"""INSERT INTO changes (time, figureID) VALUES ('{currenttime}', 2)""")
             elif self.buttonrectangleactiv:
-                self.allfigures.append((self.RECTANGLENUMBER, (self.x, self.y, self.xside, self.yside),
+                self.allfigures.append((self.RECTANGLENUMBER, self.figure,
                                         self.colorbrush, self.colorpen, self.thickpen))
                 self.cur.execute(f"""INSERT INTO changes (time, figureID) VALUES ('{currenttime}', 3)""")
             elif self.buttonlineactiv:
@@ -108,9 +109,9 @@ class Paint(QLabel):
             qp.setBrush(i[2])
             qp.setPen(QPen(i[3], i[4]))
             if i[0] == self.POLYGONNUMBER:
-                qp.drawPolygon(i[1])
+                qp.drawPolygon(*i[1].drawing())
             elif i[0] == self.ELLIPSENUMBER:
-                qp.drawEllipse(i[1][0], i[1][1], i[1][2], i[1][3])
+                qp.drawEllipse(*i[1].drawing())
             elif i[0] == self.RECTANGLENUMBER:
                 qp.drawRect(i[1][0], i[1][1], i[1][2], i[1][3])
             elif i[0] == self.LINENUMBER:
@@ -126,27 +127,11 @@ class Paint(QLabel):
             qp.drawPolygon(QPolygon(self.points))
         elif (self.buttonellipseactiv or self.buttonrectangleactiv) and self.startpostaken:
             point = self.points[-1]
-            if point.x() > self.position[0]:
-                self.x = point.x() + (self.position[0] - point.x())
-                self.xside = (point.x() - self.position[0]) * 2
-            elif point.x() < self.position[0]:
-                self.x = point.x() - (self.position[0] - point.x())
-                self.xside = (self.position[0] - point.x()) * 2
-            else:
-                self.x = self.position[0]
-                self.xside = 0
-            self.y = self.position[1]
-            if point.y() > self.position[1]:
-                self.yside = (point.y() - self.position[1]) * 2
-            elif point.y() < self.position[1]:
-                self.y = point.y() - (self.position[1] - point.y())
-                self.yside = (self.position[1] - point.y()) * 2
-            else:
-                self.yside = 0
+            self.figure = ellipseorrectangle(point.x(), point.y(), self.position[0], self.position[1])
             if self.buttonellipseactiv:
-                qp.drawEllipse(self.x, self.y, self.xside, self.yside)
+                qp.drawEllipse(*self.figure.drawing())
             elif self.buttonrectangleactiv:
-                qp.drawRect(self.x, self.y, self.xside, self.yside)
+                qp.drawRect(*self.figure.drawing())
         elif self.buttonlineactiv and self.startpostaken:
             self.point = self.points[-1]
             qp.drawLine(self.point, QPoint(self.position[0], self.position[1]))
