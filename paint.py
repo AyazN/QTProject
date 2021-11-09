@@ -1,3 +1,4 @@
+import sys
 import sqlite3
 from datetime import datetime
 from PyQt5.QtCore import QPoint, QLine, pyqtSignal
@@ -109,11 +110,11 @@ class Paint(QLabel):
             qp.setBrush(i[2])
             qp.setPen(QPen(i[3], i[4]))
             if i[0] == self.POLYGONNUMBER:
-                qp.drawPolygon(*i[1].drawing())
+                qp.drawPolygon(i[1])
             elif i[0] == self.ELLIPSENUMBER:
                 qp.drawEllipse(*i[1].drawing())
             elif i[0] == self.RECTANGLENUMBER:
-                qp.drawRect(i[1][0], i[1][1], i[1][2], i[1][3])
+                qp.drawRect(*i[1].drawing())
             elif i[0] == self.LINENUMBER:
                 qp.drawLine(i[1][0], i[1][1])
             elif i[0] == self.CURVENUMBER or i[0] == self.ERASENUMBER:
