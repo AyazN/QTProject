@@ -5,6 +5,7 @@ from PyQt5.QtCore import QPoint, QLine, pyqtSignal
 from PyQt5.QtGui import QPainter, QPolygon, QColor, QPen
 from PyQt5.QtWidgets import QLabel
 from ellipserectanglefigure import ellipseorrectangle
+from curveline import curvelines
 
 
 class Paint(QLabel):
@@ -14,7 +15,6 @@ class Paint(QLabel):
     def __init__(self, parent):
         super(Paint, self).__init__(parent)
         self.points = []
-        self.curvelines = []
         self.allfigures = []
         self.figuresdeleted = []
         self.POLYGONNUMBER = 1
@@ -55,6 +55,7 @@ class Paint(QLabel):
         if self.buttonellipseactiv or self.buttonrectangleactiv or self.buttonlineactiv or \
                 self.buttoncurveactiv or self.buttoneraseactiv:
             if self.buttoncurveactiv or self.buttoneraseactiv:
+                self.lines = curvelines()
                 self.buttoncurveactivfirst = True
             self.position = [event.x(), event.y()]
             self.takemousepos = True
@@ -92,14 +93,14 @@ class Paint(QLabel):
                                         self.colorbrush, self.colorpen, self.thickpen))
                 self.cur.execute(f"""INSERT INTO changes (time, figureID) VALUES ('{currenttime}', 4)""")
             elif self.buttoncurveactiv:
-                self.allfigures.append((self.CURVENUMBER, self.curvelines, self.colorbrush, self.colorpen,
+                self.allfigures.append((self.CURVENUMBER, self.lines, self.colorbrush, self.colorpen,
                                         self.thickpen))
-                self.curvelines = []
+                self.lines = curvelines()
                 self.cur.execute(f"""INSERT INTO changes (time, figureID) VALUES ('{currenttime}', 5)""")
             elif self.buttoneraseactiv:
-                self.allfigures.append((self.ERASENUMBER, self.curvelines, self.colorbrush, self.ERASEPEN,
+                self.allfigures.append((self.ERASENUMBER, self.lines, self.colorbrush, self.ERASEPEN,
                                         self.thickpen))
-                self.curvelines = []
+                self.lines = curvelines()
                 self.cur.execute(f"""INSERT INTO changes (time, figureID) VALUES ('{currenttime}', 6)""")
             self.con.commit()
             self.figureDrawn.emit()
@@ -118,7 +119,7 @@ class Paint(QLabel):
             elif i[0] == self.LINENUMBER:
                 qp.drawLine(i[1][0], i[1][1])
             elif i[0] == self.CURVENUMBER or i[0] == self.ERASENUMBER:
-                for _ in i[1]:
+                for _ in i[1].alllines():
                     qp.drawLine(_)
             elif i[0] == self.PICTURENUMBER:
                 qp.drawPixmap(0, 0, i[1])
@@ -140,11 +141,12 @@ class Paint(QLabel):
             if self.buttoneraseactiv:
                 qp.setPen(QPen(self.ERASEPEN, self.thickpen))
             if self.buttoncurveactivfirst:
-                self.curvelines.append(QLine(self.points[-1], QPoint(self.position[0], self.position[1])))
+                self.lines.addline(QLine(self.points[-1], QPoint(self.position[0], self.position[1])))
                 self.pointstart = QPoint(self.position[0], self.position[1])
                 self.buttoncurveactivfirst = False
             else:
-                self.curvelines.append(QLine(self.pointstart, QPoint(self.position[0], self.position[1])))
+                self.lines.addline(QLine(self.pointstart, QPoint(self.position[0], self.position[1])))
                 self.pointstart = QPoint(self.position[0], self.position[1])
-            for _ in self.curvelines:
+            for _ in self.lines.alllines():
                 qp.drawLine(_)
+
